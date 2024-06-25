@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore More - Magazine 1</title>
+    <style>
+        /* CSS styles for header, main content, and footer */
+        header {
+            background-color: #2a0505cf;
+            color: #cec7c7;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+            background-color:#fbf2f4 ;
+        }
+
+        footer {
+            background-color: #cdbfe2;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* CSS styles for magazine info */
+        .magazine-info {
+            margin: 0 auto;
+            max-width: 700px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .magazine-info h2 {
+            color: #403e3e;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .magazine-info p {
+            color: #3f3d3d;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        /* CSS styles for slideshow */
+.slideshow-container {
+    position: relative;
+    max-width: 470px;
+    margin: auto;
+}
+
+.slides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0; /* Initially show the footer */
+    left: 0;
+    width: 100%;
+    transition: bottom 0.3s ease; /* Add smooth transition */
+}
+.show-footer {
+    bottom: 0; /* Show the footer */
+}
+/* CSS styles for the author section */
+.author-section {
+    background-color: #3f1616b2; /* Background color */
+    padding: 20px; /* Padding around the section */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 30px;
+ } /* Adjust top margin as needed 
+/* CSS styles for the author box */
+.author-box {
+    display: flex; /* Use flexbox for layout */
+    align-items: center;
+    font-size:3.4ch ;/* Center items vertically */
+}
+
+.author-box img {
+    width: 360px; /* Width of author picture */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 100%; /* Make the picture round */
+    margin-right: 100px; /* Margin between picture and text */
+}
+
+.author-info {
+    flex: 1; /* Take remaining space */
+}
+
+.author-info h3 {
+    margin-top: 0; /* Remove default margin for heading */
+}
+
+.author-info p {
+    margin: 0 0 50px; /* Remove default margins for paragraphs */
+}
+
+a.visit-magazine-link {
+    text-decoration: none;
+    color: #39040f; /* Default link color */
+    transition: color 0.3s ease;
+    font-family: Georgia, 'Times New Roman', Times, serif,Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Smooth transition for color change */
+}
+
+a.visit-magazine-link:hover {
+    color: #5b5c5e; /* Change link color on hover */
+}
+.official-website-box {
+    border: 1px solid #a78585; /* Border color and thickness */
+    padding: 20px; /* Padding around the link */
+    display: inline-block; /* Display as inline-block to fit content */
+    border-radius: 9px; 
+    background-color: #9694af;
+    width: 20px;/* Rounded corners */
+}
+.magazine-link {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Set link color */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.magazine-link:hover {
+    color: #555; /* Change color on hover */
+}
+.magazine-container {
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Distribute items evenly with space between */
+}
+
+.magazine-container {
+    overflow: hidden; /* Hide overflow content */
+    white-space: nowrap; /* Prevent wrapping of images */
+    animation: slide 10s linear infinite; /* Apply animation */
+}
+
+.magazine-container img {
+    display: inline-block; /* Display images in a row */
+    width: 300px; /* Set the width of the magazine cover images */
+    height: auto; /* Let the height adjust based on the aspect ratio */
+}
+
+@keyframes slide {
+    0% { transform: translateX(0); } /* Start position */
+    100% { transform: translateX(-9%); } /* End position */
+}
+.back-button {
+            background-color: #383335; /* Green */
+            border: none;
+            color: white;
+            padding: 18px 50px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 40px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            bottom: 20px;
+            left: 0px;
+            z-index: 0;
+        }
+
+        /* Hover effect */
+        .back-button:hover {
+            background-color: #69525b; /* Darker green */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Magazine 3</h1>
+    </header>
+    <main>
+        <div class="magazine-info">
+            <h2>CovetED Work From Home</h2>
+            <p>In my opinion, Coveted Magazine's Work from Home Edition is a perfect blend of luxury and practicality, offering exquisite design inspiration for home offices. The detailed features on high-end furniture and accessories help transform any space into an elegant and functional workspace.</p>
+            <p>Coveted Magazine's Work from Home Edition is a brilliantly curated publication that captures the essence of combining luxury and productivity in home environments. In a time when remote work has become the norm, this edition offers readers a plethora of innovative ideas and sophisticated design solutions to create elegant yet functional workspaces at home. The magazine not only highlights the latest trends in home office décor but also provides practical advice on optimizing productivity and comfort. The stunning photography and detailed features on high-end furniture, lighting, and accessories are particularly inspiring, offering a glimpse into how one can transform any space into a refined and efficient home office.</p>
+        </div>
+        <div class="slideshow-container">
+            <div class="slides fade">
+                <img src="magazine13.jpg" style="width:100%">
+            </div>
+            <div class="slides fade">
+                <img src="coveted1.jpg" style="width:100%">
+            </div>
+            <div class="slides fade">
+                <img src="coveted2.jpg" style="width:100%">
+            </div>
+            <div class="slides fade">
+                <img src="coveted3.jpg" style="width:100%">
+            </div>
+            <div class="slides fade">
+                <img src="coveted4.jpg" style="width:100%">
+            </div>
+            <div class="slides fade">
+                <img src="coveted5.jpg" style="width:100%">
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <section class="author-section">
+            <div class="author-box">
+                <img src="logo.jpg" alt="Author Picture">
+                <div class="author-info">
+                    <h3>About the Magazine</h3>
+                    <p>CovetED is a distinguished magazine that focuses on luxury lifestyle, design, and high-end interiors. Launched with the intent to inspire and inform, Coveted covers a wide array of topics including exclusive interviews with top designers, the latest trends in home décor, and profiles of some of the most stunning residences and hotels around the world. Its pages are filled with exquisite photography and detailed articles that cater to readers with a taste for the finer things in life. Coveted has established itself as a must-read for those seeking inspiration in the realms of opulence and sophisticated living.</p>
+                </div>
+            </div>
+        </section>
+        
+        
+        
+        <h3>Explore More Magazines from CovetED</h3>
+        <div class="magazine-container">
+            <a href="https://www.architecturaldigest.com/gallery/winnie-harlows-glamorous-hollywood-home"> <img src="magazine13.jpg" alt="Magazine 1 Cover"></a>
+            <a href ="https://www.architecturaldigest.com/gallery/jon-batiste-suleika-jaouad-home"><img src="magazine14.jpg" alt="Magazine 2 Cover"></a>
+            <a href = "https://www.architecturaldigest.com/gallery/tour-a-fashion-insiders-bright-london-town-house-complete-with-an-evergreen-garden"><img src="magazine15.jpg" alt="Magazine 3 Cover"></a>
+            <a href = "https://www.architecturaldigest.com/gallery/step-inside-a-colorful-family-home-in-an-iconic-london-building"><img src="magazine16.jpg" alt="Magazine 4 Cover"></a>
+ </div>
+            
+            </div>
+            <button class="back-button" a href="blog-articles.html" style="text-decoration: none; color: white;"onclick="goBack()">Go Back</button>
+            </a>
+    </main>
+    <script>
+     var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("slides");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex-1].style.display = "block";
+}
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
+    if (prevScrollpos > currentScrollPos) {
+        document.querySelector("footer").style.bottom = "-50px";
+    } else {
+        document.querySelector("footer").style.bottom = "0px";
+    }
+    prevScrollpos = currentScrollPos;
+}
+function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

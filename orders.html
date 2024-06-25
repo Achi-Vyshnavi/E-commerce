@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e6edbc;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #orders {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .order {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #fffbfb;
+        }
+
+        .order:last-child {
+            border-bottom: none;
+        }
+
+        .order p {
+            margin: 5px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #c7ce82;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+
+        .tracking {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .tracking img {
+            width: 30px;
+            height: 30px;
+            opacity: 0.5;
+        }
+
+        .tracking img.active {
+            opacity: 1;
+        }
+
+        .details-btn, .cancel-btn {
+            background-color: #c7d470;
+            color: rgb(13, 10, 10);
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition-duration: 0.4s;
+        }
+
+        .details-btn:hover, .cancel-btn:hover {
+            background-color: rgb(203, 222, 161);
+            color: black;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #e7e787;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #0e0808;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .bill {
+            padding: 20px;
+            font-family: monospace;
+            line-height: 1.6;
+            border: 1px dashed #ccc;
+        }
+
+        .bill .title {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 10px;
+        }
+
+        .bill p {
+            margin: 5px 0;
+        }
+
+        .cancel-reason {
+            margin: 10px 0;
+        }
+
+        .cancel-reason label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .cancel-reason select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .cancel-reason button {
+            background-color: #ddd950;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cancel-reason button:hover {
+            background-color: #c5a025;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Orders</h1>
+    <div id="orders">
+        <!-- Orders will be dynamically populated here -->
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="bill" id="bill-details">
+                <!-- Bill details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="cancel-reason" id="cancel-reason">
+                <label for="reason">Reason for cancellation:</label>
+                <select id="reason">
+                    <option value="Changed mind">Changed mind</option>
+                    <option value="Found better price">Found better price</option>
+                    <option value="Item not needed">Item not needed</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button onclick="submitCancellation()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated orders data
+        const ordersData = [
+            { product: 'Product 1', cost: 1000, gst: 180, date: 'June 10, 2024', status: 'Ordered', paid: true },
+            { product: 'Product 2', cost: 1500, gst: 270, date: 'June 10, 2024', status: 'Shipped', paid: true },
+            { product: 'Product 3', cost: 2000, gst: 360, date: 'June 10, 2024', status: 'Delivered', paid: false }
+            // Add more orders as needed
+        ];
+
+        // Order statuses
+        const statusSteps = ['Ordered', 'Shipped', 'Delivered'];
+        const statusIcons = {
+            'Ordered': 'confirmed.gif',
+            'Shipped': 'shipped.gif',
+            'Delivered': 'delivered.gif'
+        };
+
+        // Function to get the progress percentage
+        function getProgressPercentage(status) {
+            const index = statusSteps.indexOf(status);
+            return ((index + 1) / statusSteps.length) * 100;
+        }
+
+        // Function to cancel an order
+        function cancelOrder(index) {
+            // Display modal to get cancellation reason
+            document.getElementById('cancelModal').style.display = 'block';
+
+            // Set up event listener for the close button
+            const closeButton = document.getElementById('cancelModal').getElementsByClassName('close')[0];
+            closeButton.onclick = function () {
+                document.getElementById('cancelModal').style.display = 'none';
+            };
+
+            // Set the index of the canceled order to hide its GIF
+            document.getElementById('cancelModal').setAttribute('data-index', index);
+        }
+
+        // Function to submit cancellation reason
+        function submitCancellation() {
+            const index = parseInt(document.getElementById('cancelModal').getAttribute('data-index'));
+            const reason = document.getElementById('reason').value;
+
+            // Hide the modal
+            document.getElementById('cancelModal').style.display = 'none';
+
+            // Update the order status to canceled
+            ordersData[index].status = 'Canceled';
+
+            // Change product name to indicate cancellation
+            document.getElementById('order-product-' + index).innerText = 'Product Order Cancelled';
+
+            // Hide the shipped and confirmed GIFs
+            document.getElementById('order-status-shipped-' + index).classList.add('hidden');
+            document.getElementById('order-status-ordered-' + index).classList.add('hidden');
+        }
+
+        // Function to show bill details in modal
+        function showBillDetails(product, cost, gst, totalCost, paid) {
+            const modal = document.getElementById('myModal');
+            const billDetails = document.getElementById('bill-details');
+            const paidStatus = paid ? 'Paid' : 'Not Paid';
+            billDetails.innerHTML = `
+                <div class="title">Order Details</div>
+                <p><strong>Product:</strong> ${product}</p>
+                <p><strong>Cost:</strong> ${cost}</p>
+                <p><strong>GST:</strong> ${gst}</p>
+                <p><strong>Total Cost:</strong> ${totalCost}</p>
+                <p><strong>Status:</strong> ${paidStatus}</p>
+            `;
+            modal.style.display = 'block';
+            // Close the modal when clicking outside the content area
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+
+        // Display orders
+        const ordersContainer = document.getElementById('orders');
+        ordersData.forEach((order, index) => {
+            const progressPercentage = getProgressPercentage(order.status);
+            const orderElement = document.createElement('div');
+            orderElement.classList.add('order');
+            orderElement.innerHTML = `
+                <p><strong>Product:</strong> <span id="order-product-${index}">${order.product}</span></p>
+                <p><strong>Status:</strong> ${order.status}</p>
+                <p><strong>Date:</strong> ${order.date}</p>
+                <div class="tracking">
+                    ${statusSteps.map(step => `
+                        <img src="${statusIcons[step]}" alt="${step}" class="status-icon ${order.status === step || statusSteps.indexOf(step) < statusSteps.indexOf(order.status) ? 'active' : ''} ${order.status !== 'Canceled' && (step === 'Shipped' || step === 'Ordered') ? '' : 'hidden'}" id="order-status-${step.toLowerCase()}-${index}">
+                    `).join('')}
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: ${progressPercentage}%;"></div>
+                </div>
+                <button class="details-btn" onclick="showBillDetails('${order.product}', ${order.cost}, ${order.gst}, ${order.cost + order.gst}, ${order.paid})">View Details</button>
+                <button class="cancel-btn" onclick="cancelOrder(${index})">Cancel Order</button>
+            `;
+            ordersContainer.appendChild(orderElement);
+        });
+    </script>
+</body>
+</html>
